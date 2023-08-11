@@ -75,4 +75,6 @@ class ResumeUser(models.Model):
         verbose_name_plural ="Resumenes"
 
     def __str__(self):
-        return f'{self.type_resume}'
+        for resumen in self.RESUME_SECCTION:
+            if (resumen[0] == self.type_resume):
+                return f'{resumen[0]}'

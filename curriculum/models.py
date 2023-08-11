@@ -92,9 +92,15 @@ class HobbiesExtras(models.Model):
         return f'{self.hobby}'
     
 class Skills(models.Model):
+    LEVEL = [
+        ('Basico','Basico'),
+        ('Intermedio','Intermedio'),
+        ('Alto','Alto'),
+        ('Avanzado','Avanzado')
+    ]
     user = models.ForeignKey(User , on_delete=models.CASCADE )
     skill = models.CharField(verbose_name='Competencias', max_length=100)
-    level = models.CharField(verbose_name='Nivel', choices=Nivel, max_length=100)
+    level = models.CharField(verbose_name='Nivel', choices=LEVEL, max_length=100)
     description = models.TextField(verbose_name='Descripcion') #descripcion detallada del nivel y habilidades adquiridas
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
