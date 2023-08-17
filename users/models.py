@@ -14,7 +14,7 @@ class UserManager(BaseUserManager):
         
         user = self.model(email=self.normalize_email(email),**extra_fields)
         user.set_password(password)
-        user.save(using = self._db)
+        user.save()
 
         return user
 
@@ -69,7 +69,7 @@ class Links(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     type_link = models.CharField(verbose_name='Tipo de Enlace', max_length=50, choices=TYPE_LINK)
-    link_url = models.URLField(verbose_name='Link')
+    link_url = models.URLField(verbose_name='Link', unique=True)
     created =models.DateTimeField(auto_now_add=True)
     modified =models.DateTimeField(auto_now=True)
 
@@ -91,7 +91,7 @@ class ResumeUser(models.Model):
     ]
 
     type_resume = models.CharField(verbose_name='Tipo de Resumen', max_length=20, choices=RESUME_SECCTION)
-    resumes = RichTextField(verbose_name='Resumen')
+    resumes = RichTextField(verbose_name='Resumen', unique=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 

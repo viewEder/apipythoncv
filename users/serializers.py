@@ -1,7 +1,7 @@
 # importar las librerías necesarias:
 from rest_framework import serializers
 # Importamos los modelos de datos:
-from .models import User
+from .models import ResumeUser, Links
 # Importar de autenticación de django
 from django.contrib.auth import authenticate, get_user_model
 
@@ -44,7 +44,7 @@ class UserSerializer(serializers.ModelSerializer):
                 user.save()
             
             return user
-        
+               
 
 class AuthTokenSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -66,3 +66,30 @@ class AuthTokenSerializer(serializers.Serializer):
 
         attrs['user'] = user
         return  attrs
+    
+# ------------------------------------ Los otros Modelos ------------------------------------
+class LinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Links
+        fields = '__all__'
+
+    def createLink(self, validated_data):
+        link = Links.objects.create(validated_data)
+        return link
+          
+    def updateLink(self, instance, valdated_data):
+        link = Links.update(instance, valdated_data)
+        return link
+    
+class ResumeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ResumeUser
+        fields = '__all__'
+
+    def createLink(self, validated_data):
+        resume = ResumeUser.objects.create(validated_data)
+        return resume
+          
+    def updateLink(self, instance, valdated_data):
+        resume = ResumeUser.update(instance, valdated_data)
+        return resume
