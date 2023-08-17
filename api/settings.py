@@ -43,12 +43,13 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     #'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
     'ckeditor',
 ]
 
 LOCAL_APPS = [
     # custom users app
-    'users',
+    'users.apps.UsersConfig',
     'curriculum',
 ]
 
@@ -146,10 +147,10 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'assets/')
 ]
 
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticatedOrReadOnly'],
-}
+# REST_FRAMEWORK = {
+#     # Use Django's standard `django.contrib.auth` permissions,
+#     'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticatedOrReadOnly'],
+# }
 
 # Todas mis configuraciones:
 AUTH_USER_MODEL = 'users.User'

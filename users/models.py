@@ -1,11 +1,34 @@
 from django.db import models
 # importamos la clase abstracta de usuarios:
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, PermissionsMixin, BaseUserManager
 from ckeditor.fields import RichTextField
 
 # Create your models here.
 
-class User(AbstractUser):
+class UserManager(BaseUserManager):
+    """Define a model manager for User model"""
+    def create_user(self, email, password, **extra_fields):
+        # Validamos la existencia de email:
+        if not email:
+            raise ValueError('El correo electrónico es obligatorio')
+        
+        user = self.model(email=self.normalize_email(email),**extra_fields)
+        user.set_password(password)
+        user.save(using = self._db)
+
+        return user
+
+    # Method for superUser:
+    def create_super_user(self, email, password):
+        user = self.create_user(email, password)
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using = self._db)
+
+        return user
+
+
+class User(AbstractUser, PermissionsMixin):
     TYPE_ID = [
         ("Registro Civil", "Registro Civil"),
         ("Tarjeta de Identidad", "Tarjeta de Identidad"),
@@ -32,6 +55,8 @@ class User(AbstractUser):
     is_recruiter = models.BooleanField('Recutador', default=False)
     created =models.DateTimeField(auto_now_add=True)
     modified =models.DateTimeField(auto_now=True)
+
+    objects = UserManager()
 
 
 class Links(models.Model):
